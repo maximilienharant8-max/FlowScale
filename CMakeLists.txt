@@ -89,6 +89,9 @@ if (WIN32)
     endif()
 
     target_compile_options(FlowScale PRIVATE /permissive- /W4 /MP /O2 /Zi /EHsc)
+    # FlowScale.rc already embeds the manifest; stop the linker generating a second one
+    # (otherwise CVT1100 "duplicate resource type:MANIFEST").
+    target_link_options(FlowScale PRIVATE /MANIFEST:NO)
     target_link_libraries(FlowScale PRIVATE
         d3d11 dxgi d3dcompiler d2d1 dwrite
         windowsapp runtimeobject
