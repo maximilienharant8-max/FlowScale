@@ -78,7 +78,7 @@ bool MainWindow::Create(HINSTANCE hInst) {
     profiles_.Load();
     ui_ = Settings{};
 
-    const DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+    const DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPCHILDREN;
     RECT r{ 0, 0, kClientW, kClientH };            // 96-dpi size; re-scaled on WM_CREATE
     AdjustWindowRectEx(&r, style, FALSE, WS_EX_APPWINDOW);
     hwnd_ = CreateWindowExW(WS_EX_APPWINDOW, kClass, L"FlowScale", style,
@@ -119,7 +119,7 @@ LRESULT MainWindow::Handle(HWND h, UINT msg, WPARAM wp, LPARAM lp) {
         // below need a valid parent), then re-scale the window to the real DPI.
         hwnd_ = h;
         dpi_ = GetDpiForWindow(h);
-        const DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+        const DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPCHILDREN;
         RECT r{ 0, 0, Dp(kClientW), Dp(kClientH) };
         AdjustWindowRectEx(&r, style, FALSE, WS_EX_APPWINDOW);
         SetWindowPos(h, nullptr, 0, 0, r.right - r.left, r.bottom - r.top,
